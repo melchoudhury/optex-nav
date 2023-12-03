@@ -2,13 +2,30 @@ import { defineStore } from 'pinia'
 
 export const useNavStore = defineStore('navStore', {
     state: () => ({
-        countries: [
-            {id: 1, title: "United Kingdom"},
-            {id: 2, title: "Germany"},
-            {id: 3, title: "France"},
-            {id: 4, title: "Belgium"},
-            {id: 5, title: "Luxumbug"},
-            {id: 6, title: "Denmark"}
-        ]
-    })
-})
+        products: [
+            {id: 1, title: "Indoor"},
+            {id: 2, title: "Outdoor"},
+            {id: 3, title: "Residential"},
+            {id: 4, title: "Commercial"},
+            {id: 5, title: "Security"}
+        ],
+    filter: 'all',
+}),
+getters: {
+    filteredProducts() {
+      if (this.filter === 'Indoor') {
+        return this.products.filter(product => product.title === 'Indoor');
+      } else if (this.filter === 'Outdoor') {
+        return this.products.filter(product => product.title === 'Outdoor');
+      } else if (this.filter === 'Residential') {
+        return this.products.filter(product => product.title === 'Residential');
+      } else if (this.filter === 'Commercial') {
+        return this.products.filter(product => product.title === 'Commercial');
+      } else if (this.filter === 'Security') {
+        return this.products.filter(product => product.title === 'Security');
+      } else {
+        return this.products;
+      }
+    },
+  },
+});
