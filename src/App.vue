@@ -31,6 +31,7 @@ setup() {
   };
   return { navStore, filter, filteredProducts }
 }
+
 }
 </script>
 

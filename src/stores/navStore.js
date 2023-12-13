@@ -13,6 +13,7 @@ export const useNavStore = defineStore('navStore', {
 }),
 getters: {
     filteredProducts() {
+
       if (this.filter === 'Indoor') {
         return this.products.filter(product => product.title === 'Indoor');
       } else if (this.filter === 'Outdoor') {
