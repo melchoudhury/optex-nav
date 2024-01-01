@@ -165,6 +165,7 @@
         display: grid;
         background: black;
         padding: 2rem;
+        max-width: 1200px;
         width: 80%;
         grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
         grid-template-rows: repeat(2, 300px); /* 2 rows with a fixed height of 100px */
@@ -236,10 +237,11 @@
     }
     .box {
         height: 100%;
-        width: 100%;
-        background-size: cover;
-        background-position: center;
-        position: relative;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
     }
     .done {
         transition: all 1s ease-in-out;
