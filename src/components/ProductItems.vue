@@ -15,7 +15,7 @@
                 </p>
             </transition-group>
         </ul>
-        <ul v-if="navStore.filter === 'Outdoor'">
+        <ul v-if="navStore.filter === 'Cards'">
             <div class="card-group">
                 <transition-group
                     appear
@@ -26,7 +26,7 @@
                 </transition-group>
             </div>
         </ul>
-        <ul v-if="navStore.filter === 'Residential'">
+        <ul v-if="navStore.filter === 'Text colors'">
             <transition-group
                 appear
                 tag="div"
