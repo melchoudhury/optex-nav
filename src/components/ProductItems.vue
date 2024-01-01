@@ -1,6 +1,6 @@
 <template>
     <div class="nav-bar">
-        <ul v-if="navStore.filter === 'Indoor'">
+        <ul class="reveal" v-if="navStore.filter === 'Text Reveal'">
             <transition-group
                 appear
                 class="group"
@@ -27,13 +27,19 @@
             </div>
         </ul>
         <ul v-if="navStore.filter === 'Residential'">
-            <li>Residential:</li>
-            <li>Grade 3</li>
-            <li>PIR</li>
-            <li>Dual-Technology</li>
-            <li>Laser</li>
-            <li>Fibre-Optic</li>
-            <li>IR BEAMS</li>
+            <transition-group
+                appear
+                tag="div"
+                class="texttrans"
+                @before-enter="textBefore"
+                @enter="textEnter"
+                            >
+                <h1 v-for="(item, index) in copy" :key="item.text" :data-index="index">
+                    <span :class="item.color">
+                    {{ item.text }}
+                    </span>
+                </h1>
+            </transition-group>
         </ul>
         <ul v-if="navStore.filter === 'Commercial'">
             <li>Commercial:</li>
@@ -56,14 +62,14 @@
     import { useNavStore } from '@/stores/navStore';
     import { ref } from 'vue'
     import gsap from 'gsap'
+   
     export default{
         setup() {
             const navStore = useNavStore()
             const copy = ref([
-            { text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'},
-            { text: 'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'},
-            { text: 'Ut enim ad minim veniam'},
-            { text: 'quis nostrud exercitation ullamco laboris nisi ut'},
+            { text: 'hello, and welcome,', color: 'blue'},
+            { text: 'to our', color: 'red'},
+            { text: 'top rated agency.', color: 'yellow'},
             ])
             const cards = ref ([
                 { content: 'blue' },
@@ -71,6 +77,8 @@
                 { content: 'orange' },
                 { content: 'pink' },
             ])
+            
+        
             const copyBefore = (el) => {
             const spanElement = el.querySelector('span');
             spanElement.style.transform = 'translateY(100%)';
@@ -85,12 +93,35 @@
                 delay: el.dataset.index * 0.2
             })
             }
+            const textBefore = (el) => {
+            const spanElement = el.querySelector('span');
+            spanElement.style.top = '100px';
+            }
+            const textEnter = (el, done) => {
+            const spanElement = el.querySelector('span');
+            gsap.to(spanElement, {
+                top: 0,
+                duration: 0.7,
+                onComplete: () => {
+                    onComplete();
+                    done(); // Call the provided callback
+                },
+                delay: el.dataset.index * 0.2
+            })
+            function onComplete() {
+                console.log("ready");
+               
+                spanElement.classList.add('done');
+                
+            }
+            }
             const cardsBefore = (el) => {
-                gsap.set(el, { opacity: 0, x: 100, rotateZ: 5 });
+                gsap.set(el, { opacity: 0, x: 100, rotateZ: 5, background: 'purple' });
             }
             const cardsEnter = (el) => {
                 gsap.to (el, {
                 duration: 1,
+                background: 'pink',
                 opacity: 1,
                 rotate: 0,
                 ease: "power1.out",
@@ -101,7 +132,7 @@
            
            
       
-            return { navStore, copy, copyBefore, copyEnter, cards, cardsBefore, cardsEnter }
+            return { navStore, copy, copyBefore, copyEnter, cards, cardsBefore, cardsEnter, textBefore, textEnter }
         }
     }
 </script>
@@ -115,9 +146,20 @@
     height: 400px;
     background: pink;
     }
+    .done {
+        transition: all 1s ease-in-out;
+        &.blue {
+            color: blue
+        }
+        &.red {
+            color: red;
+        }
+        &.yellow {
+            color: yellow;
+        }
+    }
     .nav-bar {
         ul {
-            display: flex;
             list-style: none;
             margin-left: 0;
             padding-left: 0;
@@ -136,13 +178,27 @@
     text-align: center;
     padding-bottom: 100px;
   }
-  p {
+  .reveal p {
     background-color: #DFD9CF;
     overflow: hidden;
     font-size: 20px;
     color: #2B2B26;
   }
-  p span {
+  .reveal p span {
     display: inline-block;
+  }
+  .texttrans {
+    background: paleturquoise;
+    padding: 1rem;
+  }
+  .texttrans h1 {
+    position: relative;
+    overflow: hidden;
+    font-size: 50px;
+    height: 70px;
+    margin: 0
+  }
+  .texttrans span {
+    position: absolute;
   }
 </style>

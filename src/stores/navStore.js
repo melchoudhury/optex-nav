@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useNavStore = defineStore('navStore', {
     state: () => ({
         products: [
-            {id: 1, title: "Indoor"},
+            {id: 1, title: "Text Reveal"},
             {id: 2, title: "Outdoor"},
             {id: 3, title: "Residential"},
             {id: 4, title: "Commercial"},
@@ -14,8 +14,8 @@ export const useNavStore = defineStore('navStore', {
 getters: {
     filteredProducts() {
 
-      if (this.filter === 'Indoor') {
-        return this.products.filter(product => product.title === 'Indoor');
+      if (this.filter === 'Text Reveal') {
+        return this.products.filter(product => product.title === 'Text Reveal');
       } else if (this.filter === 'Outdoor') {
         return this.products.filter(product => product.title === 'Outdoor');
       } else if (this.filter === 'Residential') {
