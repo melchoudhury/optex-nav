@@ -41,20 +41,17 @@
                 </h1>
             </transition-group>
         </ul>
-        <ul v-if="navStore.filter === 'Commercial'">
-            <li>Commercial:</li>
-            <li>Grade 3</li>
-            <li>PIR</li>
-            <li>Dual-Technology</li>
-            <li>Laser</li>
-            <li>Fibre-Optic</li>
-            <li>IR BEAMS</li>
-        </ul>
-        <ul v-if="navStore.filter === 'Security'">
-            <li>Security:</li>
-            <li>PIR</li>
-            <li>Dual-Technology</li>
-            <li>IR BEAMS</li>
+        <ul v-if="navStore.filter === 'Image animation'">
+            <transition-group
+                appear
+                tag="div"
+                class="card-show"
+                @enter="cardShowAfter"
+                            >
+                    <div v-for="(item, index) in cardShow" :key="item.dir" :data-index="index">
+                        <div :class="item.dir" class="box" :style="{ backgroundImage: `url('${item.img}')` }"></div>
+                    </div>
+            </transition-group>
         </ul>
     </div>
 </template>
@@ -77,7 +74,16 @@
                 { content: 'orange' },
                 { content: 'pink' },
             ])
-            
+            const cardShow = ref ([
+                { dir: 'none', img: ''},
+                { dir: 'top', img: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
+                { dir: 'right', img: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
+                { dir: 'down', img: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
+                { dir: 'left', img: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
+                { dir: 'none', img: ''},
+                { dir: 'right', img: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
+                { dir: 'none', img: ''},
+            ])
         
             const copyBefore = (el) => {
             const spanElement = el.querySelector('span');
@@ -110,9 +116,18 @@
             })
             function onComplete() {
                 console.log("ready");
-               
                 spanElement.classList.add('done');
-                
+            }
+            }
+            const cardShowAfter = (el) => {
+                const boxElement = el.querySelector('.box');
+                gsap.to(boxElement, {
+                onComplete: () => {
+                    onComplete();
+                }
+            })
+            function onComplete() {
+                boxElement.classList.add('box-done');
             }
             }
             const cardsBefore = (el) => {
@@ -132,7 +147,7 @@
            
            
       
-            return { navStore, copy, copyBefore, copyEnter, cards, cardsBefore, cardsEnter, textBefore, textEnter }
+            return { navStore, copy, copyBefore, copyEnter, cards, cardsBefore, cardsEnter, textBefore, textEnter, cardShow, cardShowAfter }
         }
     }
 </script>
@@ -145,6 +160,86 @@
     margin-right: 1rem;
     height: 400px;
     background: pink;
+    }
+    .card-show {
+        display: grid;
+        background: black;
+        padding: 2rem;
+        width: 80%;
+        grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+        grid-template-rows: repeat(2, 300px); /* 2 rows with a fixed height of 100px */
+        gap: 2rem; /* Optional gap between grid items */
+    }
+    .top {
+        &:after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            background: black;        
+        }
+        &.box-done {
+            &:after {
+                transition: all 0.5s ease-in-out;
+                height: 0%;
+            }
+        }
+    }
+    .down {
+        &:after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            bottom: 0;
+            background: black;        
+        }
+        &.box-done {
+            &:after {
+                transition: all 0.5s ease-in-out;
+                height: 0;
+            }
+        }
+    }
+    .right {
+        &:after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            right: 0;
+            background: black;        
+        }
+        &.box-done {
+            &:after {
+                transition: all 0.5s ease-in-out;
+                width: 0;
+            }
+        }
+    }
+    .left {
+        &:after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            background: black;        
+        }
+        &.box-done {
+            &:after {
+                transition: all 0.5s ease-in-out;
+                width: 0;
+            }
+        }
+    }
+    .box {
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
     }
     .done {
         transition: all 1s ease-in-out;
